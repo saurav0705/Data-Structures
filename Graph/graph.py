@@ -45,6 +45,22 @@ class Graph_Adjancy_List:
                     print(" --> "+str(elem) ,end="")
                     queue.append(elem)
 
+    def dfs_recursive(self,node):
+        self.dfs_recursive_helper(node,[False]*self.nodes)
+
+    def dfs_recursive_helper(self,node,visited):
+        queue = []
+        print(node, end="->")
+        queue.append(node)
+        visited[node] = True
+        while len(queue) != 0:
+            vertex = queue.pop(0)
+            for i in self.adjancy_list:
+                if visited[i] == False:
+                    visited = self.dfs_recursive_helper(i, visited)
+        return visited
+
+
 
 
 class Graph_Adjancy_Matrix:
@@ -80,6 +96,40 @@ class Graph_Adjancy_Matrix:
                     visited[i] = True
                     queue.append(i)
 
+    def dfs_recursive(self,node):
+        self.dfs_recursive_helper(node,[False]*self.nodes)
+
+    def dfs_recursive_helper(self,node,visited):
+        queue = []
+        print(node,end="->")
+        queue.append(node)
+        visited[node] = True
+        while len(queue) != 0:
+            vertex = queue.pop(0)
+            for i in range(0,self.nodes):
+                if visited[i] == False and self.adjancy_matrix[vertex][i]:
+                    visited = self.dfs_recursive_helper(i,visited)
+        return visited
+
+    def dfs_iterative(self,node):
+        stack = []
+        visited = [False]*self.nodes
+        print(node,end="->")
+        visited[node]=True
+        stack.append(node)
+        while len(stack)!=0:
+            vertex = stack.pop(len(stack)-1)
+            for i in range(0,self.nodes):
+                if not visited[i] and self.adjancy_matrix[vertex][i]:
+                    print(i,end="->")
+                    stack.append(vertex)
+                    stack.append(i)
+                    visited[i] = True
+                    break
+
+
+
+
 
 
 
@@ -102,7 +152,9 @@ g.insert(2,5)
 g.insert(0,1)
 g.print()
 print("-"*75)
-g.bfs(0)
+g.dfs_recursive(5)
+print()
+# g.dfs_iterative(5)
 
 
 
